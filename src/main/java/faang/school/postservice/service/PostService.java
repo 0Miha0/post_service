@@ -4,6 +4,7 @@ import faang.school.postservice.client.UserServiceClient;
 import faang.school.postservice.dto.post.PostDto;
 import faang.school.postservice.exception.DataValidationException;
 import faang.school.postservice.mapper.PostMapper;
+import faang.school.postservice.model.Like;
 import faang.school.postservice.model.Post;
 import faang.school.postservice.repository.PostRepository;
 import faang.school.postservice.validator.PostValidator;
@@ -91,6 +92,16 @@ public class PostService {
         List<Post> posts = postRepository.findPublishedTrue(userId);
         posts.sort((p1, p2) -> p2.getPublishedAt().compareTo(p1.getPublishedAt()));
         return postMapper.toDtoList(posts);
+    }
+
+    public void removeLikeFromPost(Long postId, Like like) {
+        log.info("Removing like from post with id {} and user id {}", postId, like.getUserId());
+        Post post = findById(postId);
+        post.getLikes().remove(like);
+
+        log.info("Removing like from post with id {}", postId);
+        save(post);
+        log.info("Removed like from post with id {}", postId);
     }
 
     public void save(Post post) {

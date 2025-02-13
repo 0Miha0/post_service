@@ -1,48 +1,30 @@
-name: Java CI with Gradle and Testcontainers
+name: PullRequestTest
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - Manticore-master-stream7
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     services:
       redis:
-        image: redis/redis-stack:latest
+        image: redis:latest
         ports:
           - 6379:6379
     steps:
-      - uses: actions/checkout@v4
+      - name: checkout
+        uses: actions/checkout@v4.0.0
+
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v4.4.0
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Docker
-        run: |
-          # Удаление старых версий, если они есть
-          sudo apt-get remove -y containerd containerd.io
-          
-          # Обновление списка пакетов
-          sudo apt-get update
-          
-          # Установка Docker с официального репозитория Docker
-          curl -fsSL https://get.docker.com | sudo sh
-          
-          # Добавление текущего пользователя в группу docker (если нужно)
-          sudo usermod -aG docker $USER
-          
-          # Перезапуск Docker
-          sudo systemctl restart docker
+      - name: Grant Permissions to gradlew
+        run: chmod +x gradlew
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-
-      - name: Run Tests with Gradle
-        env:
-          SPRING_PROFILES_ACTIVE: test
-        run: ./gradlew test
+      - name: Test
+        run: ./gradlew test --tests "*"
