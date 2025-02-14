@@ -1,7 +1,10 @@
 package faang.school.postservice.model;
 
+import faang.school.postservice.model.enums.VisibilityAlbums;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,6 +44,10 @@ public class Album {
 
     @Column(name = "author_id", nullable = false)
     private long authorId;
+
+    @Column(name = "visibility", nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
+    private VisibilityAlbums visibilityAlbums;
 
     @ManyToMany
     @JoinTable(name = "post_album", joinColumns = @JoinColumn(name = "album_id"), inverseJoinColumns = @JoinColumn(name = "post_id"))

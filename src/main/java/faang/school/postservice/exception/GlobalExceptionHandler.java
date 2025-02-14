@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({DataValidationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse DataValidationException(Exception ex) {
+    public ErrorResponse handleDataValidationException(Exception ex) {
         return buildResponse(ex);
     }
 
