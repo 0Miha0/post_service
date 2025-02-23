@@ -1,18 +1,18 @@
-package faang.school.postservice.service;
+package faang.school.postservice.service.post;
 
-import faang.school.postservice.client.UserServiceClient;
 import faang.school.postservice.dto.post.PostDto;
-import faang.school.postservice.exception.DataValidationException;
+import faang.school.postservice.exception.custom.DataValidationException;
 import faang.school.postservice.mapper.PostMapper;
 import faang.school.postservice.model.Like;
 import faang.school.postservice.model.Post;
 import faang.school.postservice.repository.PostRepository;
-import faang.school.postservice.validator.PostValidator;
+import faang.school.postservice.validation.service_validator.PostValidator;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,7 +26,7 @@ public class PostService {
     private final PostValidator postValidator;
     private final PostMapper postMapper;
 
-    public void createPost(PostDto dto, Long authorId) {
+    public void createPost(PostDto dto, MultipartFile[] files, Long authorId) {
         log.info("Creating post for user {}", authorId);
         postValidator.doesExistUser(authorId);
 
@@ -111,6 +111,7 @@ public class PostService {
     }
 
     public Post findById(Long id) {
+        log.info("Finding post by id: {}", id);
         return postRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Post not found with id: {}", id);

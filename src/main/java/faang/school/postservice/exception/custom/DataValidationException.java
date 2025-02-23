@@ -1,4 +1,4 @@
-package faang.school.postservice.exception;
+package faang.school.postservice.exception.custom;
 
 public class DataValidationException extends RuntimeException{
     public DataValidationException(String message) {
