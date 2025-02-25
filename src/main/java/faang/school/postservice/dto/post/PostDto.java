@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -16,5 +18,7 @@ public class PostDto {
 
     @NotNull
     private String content;
+
+    private LocalDateTime scheduledAt;
 
 }
