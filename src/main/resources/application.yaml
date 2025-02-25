@@ -1,3 +1,8 @@
+app:
+  post-service:
+    scheduledPostPublisher:
+      butch: 100
+
 spring:
   mvc:
     servlet:
@@ -53,5 +58,13 @@ minio:
   secretKey: password
   bucketName: corpbucket
 
+async:
+  publishScheduledPosts:
+    executor-name: scheduledPostPublish
+    corePoolSize: 5
+    maxPoolSize: 30
+    queueCapacity: 100
+
 scheduled:
   removeExpiredAdsCron: "0 0 3 * * ?"
+  scheduledPostPublisher: "0 * * * * *"

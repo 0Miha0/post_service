@@ -40,10 +40,9 @@ public class PostController {
     @Operation(summary = "Create a new post")
     @PostMapping
     public ResponseEntity<Void> createPost(@RequestBody @NotNull PostDto postDto,
-                                           @RequestPart(value = "filesPerPost", required = false) @MaxFilesPerPost MultipartFile[] files,
                                            @RequestHeader("x-user-id") @NotNull Long authorId) {
         log.info("Creating a new post by user {}", authorId);
-        postService.createPost(postDto, files, authorId);
+        postService.createPost(postDto, authorId);
         return ResponseEntity.ok().build();
     }
 
