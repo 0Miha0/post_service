@@ -52,3 +52,6 @@ minio:
   accessKey: user
   secretKey: password
   bucketName: corpbucket
+
+scheduled:
+  removeExpiredAdsCron: "0 0 3 * * ?"
