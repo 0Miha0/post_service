@@ -58,6 +58,12 @@ minio:
   secretKey: password
   bucketName: corpbucket
 
+text-gears:
+  baseUrl: "https://textgears-textgears-v1.p.rapidapi.com/correct"
+  xRapidKey: "1ec6bc6704mshd100f80998702b3p1438c7jsncbe0e6b62b30"
+  xRapidHost: "textgears-textgears-v1.p.rapidapi.com"
+  contentType: "application/x-www-form-urlencoded"
+
 async:
   publishScheduledPosts:
     executor-name: scheduledPostPublish

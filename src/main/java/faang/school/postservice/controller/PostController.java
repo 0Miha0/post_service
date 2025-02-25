@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -145,5 +146,18 @@ public class PostController {
     public ResponseEntity<StreamingResponseBody> downloadAllFileFromPost(@PathVariable @NotNull Long postId) {
         log.info("Downloading all files from post {}", postId);
         return ResponseEntity.ok(postFileService.downloadFilesFromPost(postId));
+    }
+
+    @Operation(summary = "Correct post content")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Post content corrected successfully"),
+            @ApiResponse(responseCode = "404", description = "Post not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error occurred during processing")
+    })
+    @PutMapping("/{postId}/correct")
+    public Mono<ResponseEntity<String>> correctPostContent(@PathVariable @NotNull Long postId) {
+        log.info("Correcting post content {}", postId);
+        return postService.correctPostContent(postId)
+                .map(ResponseEntity::ok);
     }
 }

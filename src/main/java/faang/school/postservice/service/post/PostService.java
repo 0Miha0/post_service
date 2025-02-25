@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +29,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final PostValidator postValidator;
     private final PostMapper postMapper;
+    private final PostCorrector postCorrector;
 
     public void createPost(PostDto dto, Long authorId) {
         log.info("Creating post for user {}", authorId);
@@ -135,6 +137,11 @@ public class PostService {
             saveAll(batch);
             log.info("Published batch of {} posts", batch.size());
         });
+    }
+
+    public Mono<String> correctPostContent(Long postId) {
+        log.info("Correcting content of post with id: {}", postId);
+        return postCorrector.correctPost(findById(postId).getContent());
     }
 
     public List<Post> saveAll(List<Post> posts) {
