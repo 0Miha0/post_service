@@ -34,6 +34,9 @@ spring:
       channels:
         calculations_channel:
           name: calculations_channel
+        post_view: post_view_channel
+        comment: comment-event-channel
+        like: like-event-channel
 
 server:
   port: 8081

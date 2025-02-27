@@ -1,6 +1,8 @@
 package faang.school.postservice.service;
 
 import faang.school.postservice.dto.comment.CommentDto;
+import faang.school.postservice.event_drive.redis.event.PostViewEvent;
+import faang.school.postservice.event_drive.redis.publisher.PostViewPublisher;
 import faang.school.postservice.mapper.CommentMapper;
 import faang.school.postservice.model.Comment;
 import faang.school.postservice.model.Like;
@@ -25,6 +27,7 @@ public class CommentService {
     private final PostService postService;
     private final CommentMapper commentMapper;
     private final CommentValidator commentValidator;
+    private final PostViewPublisher postViewPublisher;
 
     public void createComment(CommentDto dto, Long authorId) {
         log.info("Creating comment for user {}", authorId);
@@ -33,6 +36,14 @@ public class CommentService {
         comment.setAuthorId(authorId);
         comment.setCreatedAt(LocalDateTime.now());
         save(comment);
+
+        postViewPublisher.publish(
+                PostViewEvent.builder()
+                        .postId(dto.getPost())
+                        .actorId(authorId)
+                        .receivedAt(LocalDateTime.now())
+                        .build()
+        );
         log.info("Created comment with ID: {}", comment.getId());
     }
 
