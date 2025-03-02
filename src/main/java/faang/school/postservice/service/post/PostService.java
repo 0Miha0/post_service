@@ -2,7 +2,9 @@ package faang.school.postservice.service.post;
 
 import faang.school.postservice.dto.post.PostDto;
 import faang.school.postservice.event_drive.redis.event.PostViewEvent;
+import faang.school.postservice.event_drive.redis.event.PublishPostEvent;
 import faang.school.postservice.event_drive.redis.publisher.PostViewPublisher;
+import faang.school.postservice.event_drive.redis.publisher.PublishPostPublisher;
 import faang.school.postservice.exception.custom.DataValidationException;
 import faang.school.postservice.mapper.PostMapper;
 import faang.school.postservice.model.Like;
@@ -33,6 +35,7 @@ public class PostService {
     private final PostMapper postMapper;
     private final PostCorrector postCorrector;
     private final PostViewPublisher postViewPublisher;
+    private final PublishPostPublisher publishPostPublisher;
 
     public void createPost(PostDto dto, Long authorId) {
         log.info("Creating post for user {}", authorId);
@@ -67,6 +70,12 @@ public class PostService {
                         .actorId(post.getAuthorId())
                         .receivedAt(LocalDateTime.now())
                         .build());
+
+        publishPostPublisher.publish(
+                PublishPostEvent.builder()
+                        .userId(post.getAuthorId())
+                        .build()
+        );
         log.info("Published post {}", postId);
     }
 
