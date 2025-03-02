@@ -37,6 +37,7 @@ spring:
         post_view: post_view_channel
         comment: comment-event-channel
         like: like-event-channel
+        publish_post: publish_post_channel
 
 server:
   port: 8081
