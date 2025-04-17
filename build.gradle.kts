@@ -42,6 +42,8 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     implementation("org.springframework.retry:spring-retry")
     implementation("org.springframework:spring-aspects")
+    implementation("org.springframework.kafka:spring-kafka:3.2.4")
+    implementation("org.redisson:redisson:3.27.2")
 
     /**
      * Database

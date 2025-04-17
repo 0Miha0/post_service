@@ -15,6 +15,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -181,6 +182,14 @@ public class PostService {
                     log.warn("Post not found with id: {}", id);
                     return new EntityNotFoundException("Post not found with id: " + id);
                 });
+    }
+
+    public List<PostDto> getPostsByAuthorIds(List<Long> menteesIds, Long startPostId, int batchSize) {
+        List<Post> posts = postRepository
+                .findPostsByAuthorIds(menteesIds, startPostId, PageRequest.of(0, batchSize));
+        return posts.stream()
+                .map(postMapper::toDto)
+                .toList();
     }
 
     private List<List<Post>> splitList(List<Post> posts, int batchSize) {

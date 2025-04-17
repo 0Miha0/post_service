@@ -9,6 +9,7 @@
 * [Redis](https://redis.io/) – как кэш и очередь сообщений через pub/sub
 * [testcontainers](https://testcontainers.com/) – для изолированного тестирования с базой данных
 * [Liquibase](https://www.liquibase.org/) – для ведения миграций схемы БД
+* [Kafka](https://kafka.apache.org/) - как очередь сообщений через pub/sub
 * [Gradle](https://gradle.org/) – как система сборки приложения
 
 # База данных
@@ -68,27 +69,6 @@ java -jar build/libs/ServiceTemplate-1.0.jar
 
 Но легче всё это делать через IDE
 
-# Код
-
-RESTful приложения калькулятор с единственным endpoint'ом, который принимает 2 числа и выдает результаты их сложения,
-вычитаяни, умножения и деления
-
-* Обычная трёхслойная
-  архитектура – [Controller](src/main/java/faang/school/postservice/controller), [Service](src/main/java/faang/school/postservice/service), [Repository](src/main/java/faang/school/postservice/repository)
-* Слой Repository реализован и на jdbcTemplate, и на JPA (Hibernate)
-* Написан [GlobalExceptionHandler](src/main/java/faang/school/postservice/controller/GlobalExceptionHandler.java)
-  который умеет возвращать ошибки в формате `{"code":"CODE", "message": "message"}`
-* Используется TTL кэширование вычислений
-  в [CalculationTtlCacheService](src/main/java/faang/school/postservice/service/cache/CalculationTtlCacheService.java)
-* Реализован простой Messaging через [Redis pub/sub](https://redis.io/docs/manual/pubsub/)
-  * [Конфигурация](src/main/java/faang/school/postservice/config/RedisConfig.java) –
-    сетапится [RedisTemplate](https://docs.spring.io/spring-data/redis/docs/current/api/org/springframework/data/redis/core/RedisTemplate.html) –
-    класс, для удобной работы с Redis силами Spring
-  * [Отправитель](src/main/java/faang/school/postservice/service/messaging/RedisCalculationPublisher.java) – генерит
-    рандомные запросы и отправляет в очередь
-  * [Получатель](src/main/java/faang/school/postservice/service/messaging/RedisCalculationSubscriber.java) –
-    получает запросы и отправляет задачи асинхронно выполняться
-    в [воркер](src/main/java/faang/school/postservice/service/worker/CalculationWorker.java)
 
 # Тесты
 
