@@ -1,6 +1,6 @@
 package faang.school.postservice.event_drive.kafka.consumer;
 
-import faang.school.postservice.dto.event.KafkaFeedHeaterDto;
+import faang.school.postservice.event_drive.kafka.event.KafkaFeedHeaterDto;
 import faang.school.postservice.service.FeedService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package faang.school.postservice.event_drive.kafka.consumer;
 
-import faang.school.postservice.dto.event.KafkaLikeDto;
+import faang.school.postservice.event_drive.kafka.event.KafkaLikeDto;
 import faang.school.postservice.service.post.PostCacheService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
