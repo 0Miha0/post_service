@@ -68,20 +68,3 @@ java -jar build/libs/ServiceTemplate-1.0.jar
 ```
 
 Но легче всё это делать через IDE
-
-
-# Тесты
-
-Написаны только для единственного REST endpoint'а
-* SpringBootTest
-* MockMvc
-* Testcontainers
-* AssertJ
-* JUnit5
-* Parameterized tests
-
-# TODO
-
-* Dockerfile, который подключается к сети запущенной postgres в docker-compose
-* Redis connectivity
-* ...
